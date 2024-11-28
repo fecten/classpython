@@ -1,7 +1,3 @@
 # classpython
 
-First time using python the linux terminal.
-Also started using git repos to put my code in so that its easier to deal with all the code.
-The implications of learning python in the terminal specifically lies in the scripting capabilites of python.
-As well as the ease of use that comes inherintly with python.
-One key skill that I am going to try to develop us my ability to use python scripting for getting infomation/enumerating a target.
+I will be learning python basics, and how everything python works, how to automate with python, using DSA, and more. This repo will help me setup a flask server, and more teaching me the basics, and foundational understanding of the way, things work, which will help me become a better ethical hacker, and bug bounty hunter in the future.
