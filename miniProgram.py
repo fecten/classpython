@@ -18,11 +18,13 @@ while x >= 1:
         if userNum1 > userNum2:
             print(f"{userNum1} is greater then {userNum2}.")
         
-        elif userNum1 == userNum2:
-            print("The numbers are equal to eachother!")
+        elif userNum1 < userNum2:
+            print(f"{userNum2} is greater than {userNum1}")
+            
         
         else:
-            print(f"{userNum2} is greater than {userNum1}")
+            print("The numbers are equal to eachother!")
+            
     
     elif userConfirm.upper() == "N":
         x=0
