@@ -43,15 +43,21 @@ def banner():
     print(banner)
     print("By: Adam Malick for The process of learning Cybersecurity and Ethical Hacking.")
 
+# the random word should be stored in a variable and everytime they guess a letter it checks each letter in the word treating the word like a list iterating throug it
+#if the letter dne then give a body part if it does exist then put the letter in printed out word with the letters they used and the other default information.
 
 def getRandomWord(level):
     if level == 1:
-        print(easy_words[random.randint(0, easyLen - 1 )])
+        hangWord=(easy_words[random.randint(0, easyLen - 1 )])
     elif level == 2:
-        print(medium_words[random.randint(0, mediumLen - 1 )])
+        hangWord=(medium_words[random.randint(0, mediumLen - 1 )])
     else:
-        print(hard_words[random.randint(0, hardLen - 1 )])
+        hangWord=(hard_words[random.randint(0, hardLen - 1 )])
+    return hangWord
 
+def wordSizeUnder(wordLength):
+    for i in range (0,wordLength+1):
+        print("_", end=" ")
 
 def whichWordList():
     print("1. Easy")
@@ -64,18 +70,20 @@ def whichWordList():
         whichWordList()
 
     elif int(lvl) == 1:
-        getRandomWord(1)
-    
+        lenRandWord=len(getRandomWord(1))
+        wordSizeUnder(lenRandWord)
+
     elif int(lvl) == 2:
-        getRandomWord(2)
+        lenRandWord=len(getRandomWord(2))
+        wordSizeUnder(lenRandWord)
 
     elif int(lvl) == 3:
-        getRandomWord(3)
+        lenRandWord=len(getRandomWord(3))
+        wordSizeUnder(lenRandWord)
 
     else:
         print("Try Again invalid input.")
         whichWordList()
-
     
     
 #Start of the game printing the banner    
