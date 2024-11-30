@@ -58,17 +58,34 @@ def getLevel():
             print("Invalid input. Try Again. 1 | 2 | 3")
 
 def initDisplayWord(word):
-    displayWord=["_" for _ in word]
-    return displayWord
+    return ["_" for _ in word]
 
-def updateDisplayWord(guess,word,displayWord):
+def updateDisplayWord(guess,word,displayWord,guessedLetters):
+    if guess in guessedLetters:
+        print(f"You've already guessed '{guess}'. Try again. ")
+        return displayWord, guessedLetters #no change
     
-    #we have to update the new word with "_" but when the letter guessed is correct put the new letter in the word and print that word with the underscores for letters not guessed 
-    for letter in word:
-        if letter == guess:
-            displayWord.append(letter)
+    #appends if not in guessed letters because gets caught by init if cond updates guessed letters with the new guess
+    guessedLetters.append(guess)
+
+    #this updates the display word
+    for i in range(len(word)):
+        if word[i] == guess:
+            displayWord[i]=guess
+
+    return displayWord, guessedLetters
+
+def getContinue():
+    while True:
+        # Ask the user if they want to continue playing
+        continue_game = input("Do you want to play again? (yes/no): ").lower()
+        if continueGame == 'yes':
+            gameLoop()
+        elif continueGame == 'no':
+            print("Thanks for playing! Goodbye.")
+            return False
         else:
-            displayWord.append("_")
+            print("Invalid input. Please type 'yes' or 'no'.")
 
 
 def gameLoop():
@@ -82,15 +99,28 @@ def gameLoop():
 
     displayWord=initDisplayWord(word)
     guessedLetters = []
+    
 
     while attempts > 0:
-
         print(" ".join(displayWord)) #print init state
         guess = input("Guess a letter: ").lower()
         
+        displayWord, guessedLetters = updateDisplayWord(guess, word, displayWord, guessedLetters)
         print(guess)
 
-        print(attempts)
+        if guess not in word:
+            attempts -= 1
+            print(f"Incorrect. You have {attempts} attempts remaining.")
+        
+        if "_" not in displayWord:
+            print(f"Congratulations! You've guessed the word: {word}")
+            break
+    
+    if attempts == 0:
+        print(f"Game Over! The word was : {word}") 
+    
+    getContinue()
 
+#main game running functions
 banner()
 gameLoop()
