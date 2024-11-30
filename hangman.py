@@ -45,17 +45,25 @@ def getRandomWord(level):
         return word
     else:
         return None
-
+ 
+#if its not in guessed letters it prints _ and use .join to join the list of displayed letters
 def displayWord(word, guessedLetters):
-    return " ".join([letter if letter in guessedLetters else "_" for letter in word])
-
-
+    displayed = [
+        letter if letter in guessedLetters else "_" 
+        for letter in word
+    ]
+    return " ".join(displayed)
 
 #Start of the game printing the banner
 def playGame():
     # Difficulty selection
     print("Select a difficulty level:")
     print("1. Easy\n2. Medium\n3. Hard")
+    #try level take user input
+    #if level is in the list 1,2,3 the break its good
+    #else invalid 
+    #try |except valueError invalid input try again and since in loop 
+    #it only breaks out of the loop if its in the 1,2,3 rather than having to do 17 million if conditions
     while True:
         try:
             level = int(input("Enter the number for the level of difficulty: "))
@@ -68,6 +76,9 @@ def playGame():
 
     # Select the random word and initialize game state
     word = getRandomWord(level)
+
+#set function is  a built in function
+#gotta learn
     guessedLetters = set()
     attemptsLeft = 5
 
