@@ -1,14 +1,7 @@
 #!/usr/bin/python3
-#create greeting /
-#create your word list /
-#randomly choose a word from the list you have created /
-#ask the user to guesss a letter 
-#bonus make the program taek the input from the user and make it lower case
-#check if the letter is in the word
 
 import pyfiglet
 import random
-
 
 easy_words = [
     "cat", "dog", "sun", "hat", "car",
@@ -17,14 +10,12 @@ easy_words = [
     "chair", "table", "milk", "shoe", "clock"
 ]
 
-
 medium_words = [
     "garden", "market", "bottle", "window", "pencil",
     "bridge", "orange", "basket", "travel", "winter",
     "silver", "tunnel", "rocket", "forest", "pirate",
     "dragon", "helmet", "jungle", "island", "wallet"
 ]
-
 
 hard_words = [
     "labyrinth", "quarantine", "melancholy", "meticulous", "conundrum",
@@ -33,59 +24,99 @@ hard_words = [
     "phenomenon", "prestigious", "unorthodox", "exuberance", "grandiloquent"
 ]
 
-#lengths of the lists
-easyLen=len(easy_words)
-mediumLen=len(medium_words)
-hardLen=len(hard_words)
 
 def banner():
     banner = pyfiglet.figlet_format("HANGMAN")
     print(banner)
     print("By: Adam Malick for The process of learning Cybersecurity and Ethical Hacking.")
 
-# the random word should be stored in a variable and everytime they guess a letter it checks each letter in the word treating the word like a list iterating throug it
-#if the letter dne then give a body part if it does exist then put the letter in printed out word with the letters they used and the other default information.
-
 def getRandomWord(level):
     if level == 1:
-        hangWord=(easy_words[random.randint(0, easyLen - 1 )])
+        word = random.choice(easy_words)
+        easy_words.remove(word)
+        return word
     elif level == 2:
-        hangWord=(medium_words[random.randint(0, mediumLen - 1 )])
+        word = random.choice(medium_words)
+        medium_words.remove(word)
+        return word
+    elif level == 3:
+        word = random.choice(hard_words)
+        hard_words.remove(word)
+        return word
     else:
-        hangWord=(hard_words[random.randint(0, hardLen - 1 )])
-    return hangWord
+        return None
 
-def wordSizeUnder(wordLength):
-    for i in range (0,wordLength+1):
-        print("_", end=" ")
+def displayWord(word, guessedLetters):
+    return " ".join([letter if letter in guessedLetters else "_" for letter in word])
 
-def whichWordList():
-    print("1. Easy")
-    print("2. Medium")
-    print("3. Hard")
-    lvl=input("Enter the number for the level of difficulty: ")
 
-    if lvl.isalpha():
-        print("String, that is invalid please type the number.")
-        whichWordList()
 
-    elif int(lvl) == 1:
-        lenRandWord=len(getRandomWord(1))
-        wordSizeUnder(lenRandWord)
+#Start of the game printing the banner
+def playGame():
+    # Difficulty selection
+    print("Select a difficulty level:")
+    print("1. Easy\n2. Medium\n3. Hard")
+    while True:
+        try:
+            level = int(input("Enter the number for the level of difficulty: "))
+            if level in [1, 2, 3]:
+                break
+            else:
+                print("Invalid choice. Please select 1, 2, or 3.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
 
-    elif int(lvl) == 2:
-        lenRandWord=len(getRandomWord(2))
-        wordSizeUnder(lenRandWord)
+    # Select the random word and initialize game state
+    word = getRandomWord(level)
+    guessedLetters = set()
+    attemptsLeft = 5
 
-    elif int(lvl) == 3:
-        lenRandWord=len(getRandomWord(3))
-        wordSizeUnder(lenRandWord)
-
-    else:
-        print("Try Again invalid input.")
-        whichWordList()
+    print("\nLet's start the game!")
+    print(f"The word has {len(word)} letters.")
     
-    
-#Start of the game printing the banner    
-banner()
-whichWordList()
+    # Game loop
+    while attemptsLeft > 0:
+        print("\n" + displayWord(word, guessedLetters))
+        print(f"Guessed letters: {' '.join(sorted(guessedLetters))}")
+        print(f"Attempts left: {attemptsLeft}")
+
+        # Get user's guess
+        guess = input("Enter a letter: ").lower()
+        if len(guess) != 1 or not guess.isalpha():
+            print("Invalid input. Please enter a single letter.")
+            continue
+
+        if guess in guessedLetters:
+            print("You already guessed that letter. Try again.")
+            continue
+
+        guessedLetters.add(guess)
+
+        # Check if the guess is correct
+        if guess in word:
+            print("Good guess!")
+            # Check if the player has guessed the whole word
+            if all(letter in guessedLetters for letter in word):
+                print(f"\nCongratulations! You guessed the word: {word}")
+                break
+        else:
+            print("Wrong guess.")
+            attemptsLeft -= 1
+
+    # If out of attempts, reveal the word
+    if attemptsLeft == 0:
+        print(f"\nGame over! The word was: {word}")
+
+def mainGame():
+    banner()
+    while True:
+        playGame()
+        # Ask if the player wants to play again
+        play_again = input("\nDo you want to play again? (yes/no): ").strip().lower()
+        if play_again not in ["yes", "y"]:
+            print("\nThanks for playing! Goodbye!")
+            break
+
+
+#Play the game!
+mainGame()
